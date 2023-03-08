@@ -16,11 +16,24 @@ def scraping_prices (url):
     rowse = rows[10:-6]
     # transform to df.
     df = pd.DataFrame(rowse)
-    # clean first column names and drop not necesary columns, change the names of columns.
-    df[0] = df[0].apply(lambda x: x.split(".")[1])
-    df.drop(columns=[4, 5, 6, 7, 8], inplace=True)
-    df.rename(columns={0:"barrio", 1:"1er trimestre", 2:"2do trimestre", 3:"3er trimestre"}, inplace=True)
+    # Create new columns with clean info.
+    df["Barrio"] = df[0].apply(lambda x: x.split(".")[1])
+    df["Distrito"] = df[0].apply(lambda x: x.split(".")[0])
+    # Separate mixed nummbers to district numb.
+    df["Distrito"] = df["Distrito"].apply(nums)
+    # Clean DF and re organize it.
+    df.drop(columns=[0, 4, 5, 6, 7, 8], inplace=True)
+    df = df[["Distrito", "Barrio", 1, 2, 3]]
+    df.rename(columns={1:"1er trimestre", 2:"2do trimestre", 3:"3er trimestre"}, inplace=True)
     return df  
+
+# function to get the number of the district.
+def nums (i):  
+    if len(str(i)) == 2:
+        return i[0]
+    else:
+        return i[:2]
+    
 
 # web scraping socio-economic indice per barri.
 def scraping_sociecon (url):
@@ -33,8 +46,63 @@ def scraping_sociecon (url):
     x = rows[9:-9]
     # transform to df.
     df = pd.DataFrame(x)
+    # Create new columns with clean info.
+    df["Barrio"] = df[0].apply(lambda x: x.split(".")[1])
+    df["Distrito"] = df[0].apply(lambda x: x.split(".")[0])
+    # Separate mixed nummbers to district numb.
+    df["Distrito"] = df["Distrito"].apply(nums)
     # clean first column names, change the names of columns.
-    df[0] = df[0].apply(lambda x: x.split(".")[1])
+    df.drop(columns=[0], inplace=True)
+    df = df[["Distrito", "Barrio", 1, 2, 3, 4, 5]]    
     df.rename(columns={0:"barrio", 1:"2015", 2:"2016", 3:"2017", 4:"2018", 5:"2019"}, inplace=True)
     return df  
 
+# web scraping for seguridad page per district.
+def seguridad (url):
+    html = requests.get(url)
+    soup = BeautifulSoup(html.content, "html.parser")
+    table = soup.find_all("table")[0]
+    tags = table.find_all("tr")
+    # select only texts and clean it.
+    rows = [i.text.strip().replace("\xa0", "").split("\n") for i in tags]
+    x = rows[9:-6]
+    colum = rows[4]
+    # transform to df.
+    df = pd.DataFrame(x, columns= colum)
+    # Clean without number district column.
+    df["Distrito"] = df["Distrito"].apply(lambda x: x.split(".")[1])
+    return df
+
+# web scraping for ayuda of guardia urbana.
+def pol_urbana_ayuda (url):
+    html = requests.get(url)
+    soup = BeautifulSoup(html.content, "html.parser")
+    table = soup.find_all("table")[0]
+    tags = table.find_all("tr")
+    # select only texts and clean it.
+    rows = [i.text.strip().replace("\xa0", "").split("\n") for i in tags]
+    x = rows[9:-6]
+    df = pd.DataFrame(x)
+    # Clean and rename columns.
+    df.drop(columns=[12], inplace=True) # distrito desconocido.   
+    df.rename(columns={0: "Incidencias", 1:"Barcelona", 2:"1.Ciutat Vella", 3:"2.L'Eixample", 4:"3.Sants-Monjuïc",
+                        5:"4.Les Corts", 6:"5.Sarrià-Sant Gervasi", 7:"6.Gràcia", 8:"7.Horta-Guiardó",
+                        9: "8.Nou Barris", 10:"9.Sant Andreu", 11:"10.Sant Martí"}, inplace=True)
+    return df
+
+# web scraping for circulacion incidents.
+def circulacion (url):  
+    html = requests.get(url)
+    soup = BeautifulSoup(html.content, "html.parser")
+    table = soup.find_all("table")[0]
+    tags = table.find_all("tr")
+    # select only texts and clean it.
+    rows = [i.text.strip().replace("\xa0", "").split("\n") for i in tags]
+    x = rows[9:-6]
+    df = pd.DataFrame(x)
+    # clean and rename.
+    df.drop(columns=[12, 13], inplace=True)
+    df.rename(columns={0: "Incidencias", 1:"Barcelona", 2:"1.Ciutat Vella", 3:"2.L'Eixample", 4:"3.Sants-Monjuïc",
+                            5:"4.Les Corts", 6:"5.Sarrià-Sant Gervasi", 7:"6.Gràcia", 8:"7.Horta-Guiardó",
+                            9: "8.Nou Barris", 10:"9.Sant Andreu", 11:"10.Sant Martí"}, inplace=True)
+    return df
