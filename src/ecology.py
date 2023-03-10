@@ -36,3 +36,21 @@ def aire_monthly (maindf, contami_df, distr_df):
     # groupby district and name of contaminant.
     group = total[["district", "contaminant", "total"]].groupby(by=["district", "contaminant"]).agg({"total":"mean"})
     return group
+
+# mini function to apply.
+def returning (x):
+    if "DEN" in x:
+        return x
+    else:
+        return "NAN"
+
+# function for df of sound, returns a df with only barri, district and porcentage of different types of desiveles.
+def soroll_barris(df):
+    df.columns = df.columns.str.lower()
+    df.rename(columns={"nom_barri":"barri", "concepte":"time", "rang_soroll":"sound", "Nom_Districte":"district"}, inplace=True)
+    df["valor"] = df["valor"].apply(lambda x: x.replace("%", ""))
+    df["time"] = df["time"].apply(returning)
+    # selecting only the "total_den" because is the avarege for all day. 
+    x = df[df["time"] == "TOTAL_DEN"]
+    x.drop(columns=["codi_districte", "codi_barri", "time"], inplace=True)
+    return x
