@@ -17,13 +17,13 @@ def scraping_prices (url):
     # transform to df.
     df = pd.DataFrame(rowse)
     # Create new columns with clean info.
-    df["Barrio"] = df[0].apply(lambda x: x.split(".")[1])
-    df["Distrito"] = df[0].apply(lambda x: x.split(".")[0])
+    df["barri"] = df[0].apply(lambda x: x.split(".")[1])
+    df["district_id"] = df[0].apply(lambda x: x.split(".")[0])
     # Separate mixed nummbers to district numb.
-    df["Distrito"] = df["Distrito"].apply(nums)
+    df["district_id"] = df["district_id"].apply(nums)
     # Clean DF and re organize it.
     df.drop(columns=[0, 4, 5, 6, 7, 8], inplace=True)
-    df = df[["Distrito", "Barrio", 1, 2, 3]]
+    df = df[["district_id", "barri", 1, 2, 3]]
     df.rename(columns={1:"1er trimestre", 2:"2do trimestre", 3:"3er trimestre"}, inplace=True)
     return df  
 
@@ -47,14 +47,14 @@ def scraping_sociecon (url):
     # transform to df.
     df = pd.DataFrame(x)
     # Create new columns with clean info.
-    df["Barrio"] = df[0].apply(lambda x: x.split(".")[1])
-    df["Distrito"] = df[0].apply(lambda x: x.split(".")[0])
+    df["barri"] = df[0].apply(lambda x: x.split(".")[1])
+    df["district_id"] = df[0].apply(lambda x: x.split(".")[0])
     # Separate mixed nummbers to district numb.
-    df["Distrito"] = df["Distrito"].apply(nums)
+    df["district_id"] = df["district_id"].apply(nums)
     # clean first column names, change the names of columns.
     df.drop(columns=[0], inplace=True)
-    df = df[["Distrito", "Barrio", 1, 2, 3, 4, 5]]    
-    df.rename(columns={0:"barrio", 1:"2015", 2:"2016", 3:"2017", 4:"2018", 5:"2019"}, inplace=True)
+    df = df[["district_id", "barri", 1, 2, 3, 4, 5]]    
+    df.rename(columns={0:"barri", 1:"2015", 2:"2016", 3:"2017", 4:"2018", 5:"2019"}, inplace=True)
     return df  
 
 # web scraping for seguridad page per district.
@@ -70,7 +70,7 @@ def seguridad (url):
     # transform to df.
     df = pd.DataFrame(x, columns= colum)
     # Clean without number district column.
-    df["Distrito"] = df["Distrito"].apply(lambda x: x.split(".")[1])
+    df["district"] = df["district"].apply(lambda x: x.split(".")[1])
     return df
 
 # web scraping for ayuda of guardia urbana.
