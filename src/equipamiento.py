@@ -51,3 +51,43 @@ def clean_ids (df):
     df["barri_id"] = df["barri_id"].apply(lambda x: x.split(".")[0])
     df["district_id"] = df["district_id"].apply(lambda x: x.split(".")[0])
     return df
+
+# Clean from csv df all columns and organized it from excersice.
+def clean_excersice (df):
+    df.drop(columns=["register_id", "institution_id", "institution_name", "created", "modified", "addresses_roadtype_id", "addresses_roadtype_name",
+                    "addresses_road_id", "values_description", "secondary_filters_id", "secondary_filters_fullpath", "secondary_filters_tree", 
+                    "secondary_filters_asia_id", "geo_epgs_25831_x", "geo_epgs_25831_y", "addresses_end_street_number", "addresses_town", "addresses_type",
+                    "values_id", "values_attribute_id", "values_category", "values_attribute_name", "values_value", "values_outstanding",
+                    "addresses_main_address"], inplace=True)
+    df.rename(columns={"addresses_neighborhood_id":"barri_id", "addresses_neighborhood_name":"barri", "addresses_district_id":"district_id", 
+                        "addresses_district_name":"district", "secondary_filters_name":"category", "geo_epgs_4326_x":"latitude", "geo_epgs_4326_y":"longitude" },inplace=True)
+    # Merge the address columns into one.
+    df["address"] = df["addresses_road_name"] + " " + df["addresses_start_street_number"].astype(str)
+    # Drop duplicates and null.
+    df.drop_duplicates(inplace=True)
+    # make clumn category with same value.
+    df["category"] = "excersice"
+    # apply function to address to separate the ZC.
+    df["address"] = df["address"].apply(lambda x: x.split(".")[0])
+    # drop columns already in address column
+    df.drop(columns=["addresses_road_name", "addresses_start_street_number", "addresses_zip_code"], inplace=True)
+    return df    
+
+# Clean from csv df all columns and organized it from POOLs.
+def clean_pool (df):
+    df.drop(columns=["register_id", "institution_id", "institution_name", "created", "modified", "addresses_roadtype_id", "addresses_roadtype_name",
+                    "addresses_road_id", "values_description", "geo_epgs_25831_x", "geo_epgs_25831_y", "addresses_end_street_number", "addresses_town",
+                    "values_id", "values_attribute_id", "values_category", "values_attribute_name", "values_value", "values_outstanding", "addresses_type",
+                    "addresses_main_address"], inplace=True)
+    df.rename(columns={"addresses_neighborhood_id":"barri_id", "addresses_neighborhood_name":"barri", "addresses_district_id":"district_id", 
+                        "addresses_district_name":"district", "secondary_filters_name":"category", "geo_epgs_4326_x":"latitude", "geo_epgs_4326_y":"longitude" },inplace=True)
+    # Merge the address columns into one.
+    df["address"] = df["addresses_road_name"] + " " + df["addresses_start_street_number"].astype(str)
+    # Drop duplicates and null.
+    df.drop_duplicates(inplace=True)
+    df.dropna(inplace=True)
+    # apply function to address to separate the ZC.
+    df["address"] = df["address"].apply(lambda x: x.split(".")[0])
+    # drop columns already in address column
+    df.drop(columns=["addresses_road_name", "addresses_start_street_number", "addresses_zip_code"], inplace=True)
+    return df   
