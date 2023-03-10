@@ -54,3 +54,60 @@ def soroll_barris(df):
     x = df[df["time"] == "TOTAL_DEN"]
     x.drop(columns=["codi_districte", "codi_barri", "time"], inplace=True)
     return x
+
+# Clean from csv df all columns and organized it for interior gardens.
+def jardin_interior (df):
+    df.drop(columns=["register_id", "institution_id", "institution_name", "created", "modified", "addresses_roadtype_id", "addresses_roadtype_name",
+                    "addresses_road_id", "values_description", "geo_epgs_25831_x", "geo_epgs_25831_y", "addresses_end_street_number", "addresses_town",
+                    "values_id", "values_attribute_id", "values_category", "values_attribute_name", "values_value", "values_outstanding", "addresses_type",
+                    "addresses_main_address"], inplace=True)
+    df.rename(columns={"addresses_neighborhood_id":"barri_id", "addresses_neighborhood_name":"barri", "addresses_district_id":"district_id", 
+                        "addresses_district_name":"district", "secondary_filters_name":"category", "geo_epgs_4326_x":"latitude", "geo_epgs_4326_y":"longitude" },inplace=True)
+    # Merge the address columns into one.
+    df["address"] = df["addresses_road_name"] + " " + df["addresses_start_street_number"].astype(str)
+    # Drop duplicates and null.
+    df.drop_duplicates(inplace=True)
+    # make clumn category with same value.
+    df["category"] = "jardin_interior"
+    df.dropna(inplace=True)
+    # apply function to address to separate the ZC.
+    df["address"] = df["address"].apply(lambda x: x.split(".")[0])
+    # drop columns already in address column
+    df.drop(columns=["addresses_road_name", "addresses_start_street_number", "addresses_zip_code"], inplace=True)
+    return df   
+
+# Clean from csv df all columns and organized it for refugis.
+def refugi (df):
+    df.drop(columns=["register_id", "institution_id", "institution_name", "created", "modified", "addresses_roadtype_id", "addresses_roadtype_name",
+                    "addresses_road_id", "values_description", "geo_epgs_25831_x", "geo_epgs_25831_y", "addresses_end_street_number", "addresses_town",
+                    "values_id", "values_attribute_id", "values_category", "values_attribute_name", "values_value", "values_outstanding", "addresses_type",
+                    "addresses_main_address"], inplace=True)
+    df.rename(columns={"addresses_neighborhood_id":"barri_id", "addresses_neighborhood_name":"barri", "addresses_district_id":"district_id", 
+                        "addresses_district_name":"district", "secondary_filters_name":"category", "geo_epgs_4326_x":"latitude", "geo_epgs_4326_y":"longitude" },inplace=True)
+    # Merge the address columns into one.
+    df["address"] = df["addresses_road_name"] + " " + df["addresses_start_street_number"].astype(str)
+    # Drop duplicates and null.
+    df.drop_duplicates(inplace=True)
+    # make clumn category with same value.
+    df["category"] = "refugis"
+    df.dropna(inplace=True)
+    # apply function to address to separate the ZC.
+    df["address"] = df["address"].apply(lambda x: x.split(".")[0])
+    # drop columns already in address column
+    df.drop(columns=["addresses_road_name", "addresses_start_street_number", "addresses_zip_code"], inplace=True)
+    return df   
+
+# df clean for arvriari. 
+def arbolado(df):
+    df.drop(columns=["codi", "x_etrs89", "y_etrs89", "cat_especie_id", "categoria_arbrat", "data_plantacio", "nom_catala", "espai_verd", "tipus_reg",
+                    "tipus_aigua", "geom", "catalogacio"], inplace=True)
+    df.rename(columns={"tipus_element":"category", "adreca":"address", "nom_cientific":"taxon_name", "nom_castella":"common_name", "nom_barri":"barri", "nom_districte":"district",
+                      "codi_barri":"barri_id", "codi_districte":"district_id"}, inplace=True)
+    # rearange names of columns.
+    viari = df[["taxon_name", "common_name", "barri_id", "barri", "district_id", "district", "category", "address", "latitud", "longitud"]]
+    # Clean.
+    viari.dropna(inplace=True)
+    viari["address"] = viari["address"].apply(lambda x: x.replace('C\ ', ""))
+    viari["barri"] = viari["barri"].str.lower()
+    viari["district"] = viari["district"].str.lower()
+    return viari

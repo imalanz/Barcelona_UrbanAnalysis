@@ -85,6 +85,8 @@ def clean_pool (df):
     df["address"] = df["addresses_road_name"] + " " + df["addresses_start_street_number"].astype(str)
     # Drop duplicates and null.
     df.drop_duplicates(inplace=True)
+    # make clumn category with same value.
+    df["category"] = "piscina"
     df.dropna(inplace=True)
     # apply function to address to separate the ZC.
     df["address"] = df["address"].apply(lambda x: x.split(".")[0])
