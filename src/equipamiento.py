@@ -21,9 +21,9 @@ def civic_ (df):
     df.columns = df.columns.str.lower()
     df["division"] = "equipamiento"
     df["category"] = "centro_civic"
+    df["sub_category"] = "centro_civico"
     df.rename(columns={"equipament":"name", "codi_districte":"district_id", "nom_districte":"district", "codi_barri":"barri_id", 
-                                  "nom_barri":"barri"}, inplace=True)
-    
+                                  "nom_barri":"barri"}, inplace=True)   
     return df
 
 # Clean from csv df all columns and organized it from equipamientos csv, applyes to must of the df of equipments.
