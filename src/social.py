@@ -67,10 +67,17 @@ def seguridad (url):
     rows = [i.text.strip().replace("\xa0", "").split("\n") for i in tags]
     x = rows[9:-6]
     colum = rows[4]
-    # transform to df.
+    # tansform to df.
     df = pd.DataFrame(x, columns= colum)
     # Clean without number district column.
-    df["district"] = df["district"].apply(lambda x: x.split(".")[1])
+    df.columns = df.columns.str.lower()
+    df["district_id"] = df["distrito"].apply(lambda x: x.split(".")[0])
+    df["district"] = df["distrito"].apply(lambda x: x.split(".")[1])
+    df.drop(columns=["distrito"], inplace=True)
+    df.dropna(inplace=True)
+    df = df[["district_id", "district", "denuncias por infracción de la ordenanza de convivencia ciudadana (% habitantes)", 
+            "incidentes pordegradación del espacio público (‰ habitantes)", "incidentes en laconvivenciavecinal (‰ habitantes)",
+            "incidentes por actividadesmolestas en el espaciopúblico (‰ habitantes)", "incidentes por actividadesindebidas en el espaciopúblico (‰ habitantes)"]]
     return df
 
 # web scraping for ayuda of guardia urbana.
