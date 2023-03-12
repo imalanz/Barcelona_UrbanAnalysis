@@ -107,6 +107,8 @@ def arbolado(df):
     viari = df[["taxon_name", "common_name", "barri_id", "barri", "district_id", "district", "category", "address", "latitud", "longitud"]]
     # Clean.
     viari.dropna(inplace=True)
+    viari["barri_id"] = viari["barri_id"].astype(str)
+    viari["barri_id"] = viari["barri_id"].apply(lambda x: x.split('.')[0])
     viari["address"] = viari["address"].apply(lambda x: x.replace('C\ ', ""))
     viari["barri"] = viari["barri"].str.lower()
     viari["district"] = viari["district"].str.lower()
