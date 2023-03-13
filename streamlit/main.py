@@ -1,5 +1,8 @@
 import streamlit as st
 
-st.write("Hello world!")
-st.markdown("This is **bold** and this is _italics_")
-st.title('My first title')
+st.set_page_config(page_title="Barcelona Healthy Barri", 
+            layout = "wide",
+            initial_sidebar_state="expanded")
+
+
+
