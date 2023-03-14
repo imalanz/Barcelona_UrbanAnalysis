@@ -34,10 +34,11 @@ from shapely.geometry import Polygon
 
 # map equipamiento 
 
-equip = pd.read_csv("D:\ironhack\proyectos\Barcelona_UrbanAnalysis\csv_from_python\mapping\equipamiento.csv")
 
 
-def map_equipamiento (selected_option):
+def map_equipamiento (options):
+
+    equip = pd.read_csv("D:\ironhack\proyectos\Barcelona_UrbanAnalysis\csv_from_python\mapping\equipamiento.csv")
 
     figure4 = Figure(width=850,height=550)
     barna = folium.Map(location=[41.3887900, 2.1589900],zoom_start=13)
@@ -46,25 +47,25 @@ def map_equipamiento (selected_option):
     figure4.add_child(barna)
 
     for i, rows in equip.iterrows():
-        for option in selected_option:
+        
 
-            marker = {"location": [rows["latitud"], rows["longitud"]], "tooltip": rows["name"]}
+        marker = {"location": [rows["latitud"], rows["longitud"]], "tooltip": rows["name"]}
 
-            if selected_option == "hospitals":
-                icon = folium.Icon(color="cadetblue", icon="fa-thin fa-graduation-cap", prefix = 'fa')
-                hosp = folium.Marker(**marker, icon = icon)
-                hosp.add_to(barna)
+        if options == "hospitals":
+            icon = folium.Icon(color="cadetblue", icon="fa-thin fa-graduation-cap", prefix = 'fa')
+            hosp = folium.Marker(**marker, icon = icon)
+            hosp.add_to(barna)
 
-            if selected_option == "schools":
-                icon = folium.Icon(color="darkblue", icon = "fa-thin fa-building-columns", prefix = 'fa', )
+        if options == "schools":
+            icon = folium.Icon(color="darkblue", icon = "fa-thin fa-building-columns", prefix = 'fa', )
 
-                sc = folium.Marker(**marker, icon = icon)
-                sc.add_to(barna)
+            sc = folium.Marker(**marker, icon = icon)
+            sc.add_to(barna)
 
-            if selected_option == "centre_civic":
-                icon = folium.Icon(color="lightblue", icon="fa-light fa-suitcase-medical", prefix = 'fa')
+        if options == "centre_civic":
+            icon = folium.Icon(color="lightblue", icon="fa-light fa-suitcase-medical", prefix = 'fa')
             
-                d = folium.Marker(**marker, icon = icon)
-                d.add_to(barna)
+            d = folium.Marker(**marker, icon = icon)
+            d.add_to(barna)
     
-    return st_folium(figure4, width = 850)
+    return barna

@@ -39,17 +39,22 @@ options = ["schools", "civic centre", "hospitals"]
 default_options = ["option 1"]
 
 
-selected_option = st.multiselect("select option", options)
+selected_option =st.selectbox("Select your option", options)
 
 
 figure4 = Figure(width=850,height=550)
 barna = folium.Map(location=[41.3887900, 2.1589900],zoom_start=13)
 folium.TileLayer('cartodbpositron').add_to(barna)
 figure4.add_child(barna)
+st.folium_static(barna)
 
 
-lit.map_equipamiento (selected_option)
+map = lit.map_equipamiento (options)
+st.folium_static(map)
 
+equip = pd.read_csv("D:\ironhack\proyectos\Barcelona_UrbanAnalysis\csv_from_python\mapping\equipamiento.csv")
+map = lit.map_equipamiento (equip)
+st.folium_static(map)
 
 st.write("""
 ### Inserted map with HTML
