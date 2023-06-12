@@ -1,0 +1,13 @@
+beautifulsoup4==4.12.2
+folium==0.14.0
+geojson==3.0.1
+geopandas==0.13.2
+pandas==2.0.2
+Pillow==9.5.0
+Pillow==9.5.0
+plotly==5.15.0
+pyproj==3.6.0
+Requests==2.31.0
+Shapely==2.0.1
+streamlit==1.23.1
+streamlit_folium==0.12.0
