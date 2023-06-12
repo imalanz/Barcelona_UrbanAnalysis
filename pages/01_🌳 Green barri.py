@@ -75,7 +75,7 @@ def heat_map(selected_option_barri):
 
     return barna
 
-mov = pd.read_csv("D:\ironhack\proyectos\streamlit_Barcelona_UrbanAnalysis\data\\arbolado_mix_barri_barris.csv")
+mov = pd.read_csv("D:\ironhack\proyectos\streamlit_prueba\data\\arbolado_mix_barri_barris.csv")
 map = heat_map(selected_option_barri)
 st_folium(map, height=500, width=1000)
 
@@ -83,7 +83,7 @@ st_folium(map, height=500, width=1000)
 st.caption("List of your barri`s trees")
 
 def df_arbrat (selected_option_barri):
-    arbrat = pd.read_csv("D:\ironhack\proyectos\streamlit_Barcelona_UrbanAnalysis\data\\arbols.csv")
+    arbrat = pd.read_csv("D:\ironhack\proyectos\streamlit_prueba\data\\arbols.csv")
     df = arbrat[(arbrat["barri"] == selected_option_barri)]  
 
     return df[["taxon_name", "common_name", "address", "district", "category"]]
