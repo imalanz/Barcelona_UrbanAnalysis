@@ -19,6 +19,8 @@ import streamlit.components.v1 as components
 
 st.title("""Green barri""")
 
+image = Image.open('images/rambla.png')
+st.image(image)
 
 st.write("##")
 

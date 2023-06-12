@@ -15,6 +15,8 @@ import io
 st.title("Healthy Barri")
 st.subheader('a Barcelona Urban Analysis')
 
+image = Image.open('images/poster.png')
+st.image(image)
 
 st.write("##")
 
