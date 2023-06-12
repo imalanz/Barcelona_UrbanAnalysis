@@ -5,7 +5,7 @@
 
 ### a Barcelona Urban Analysis
 
-[![Streamlit App](https://imalanz-streamlit-prueba-healthy-barri-93obw1.streamlit.app/Best_Barri)
+[Click me to go to the proyect!](https://imalanz-streamlit-prueba-healthy-barri-93obw1.streamlit.app/Best_Barri)
 
 ## Introduction.
 
