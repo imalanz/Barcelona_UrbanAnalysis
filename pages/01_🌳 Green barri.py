@@ -58,7 +58,7 @@ selected_option_barri =st.selectbox("Select your barri", options_barri)
 # to plot a heat map.
 def heat_map(selected_option_barri):
     # csv and filter
-    arbrat = pd.read_csv("D:\ironhack\proyectos\streamlit_Barcelona_UrbanAnalysis\data\\arbolado_mix_barri_barris.csv")
+    arbrat = pd.read_csv("D:\ironhack\proyectos\streamlit_prueba\data\\arbolado_mix_barri_barris.csv")
     arbrat = arbrat[arbrat["barri"] == selected_option_barri]
     # Mapa general.   
     figure4 = Figure(width=850,height=1800)
