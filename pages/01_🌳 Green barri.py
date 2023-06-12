@@ -1,8 +1,8 @@
+import folium
 from streamlit_folium import st_folium
 from folium import Choropleth, Circle, Marker, Icon, Map, DivIcon, LinearColormap
 from folium.plugins import HeatMap, MarkerCluster
 
-import folium
 from folium import Figure
 import pandas as pd
 
