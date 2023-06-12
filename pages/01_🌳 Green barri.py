@@ -75,7 +75,7 @@ def heat_map(selected_option_barri):
 
     return barna
 
-mov = pd.read_csv("D:\ironhack\proyectos\streamlit_prueba\data\\arbolado_mix_barri_barris.csv")
+mov = pd.read_csv("D:/ironhack/proyectos/streamlit_prueba/data/arbolado_mix_barri_barris.csv")
 map = heat_map(selected_option_barri)
 st_folium(map, height=500, width=1000)
 
