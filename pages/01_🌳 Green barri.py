@@ -20,9 +20,6 @@ import streamlit.components.v1 as components
 
 st.title("""Green barri""")
 
-# image for portada
-image = Image.open(r'D:\ironhack\proyectos\streamlit_Barcelona_UrbanAnalysis\images\rambla.jpg')
-st.image(image)
 
 st.write("##")
 

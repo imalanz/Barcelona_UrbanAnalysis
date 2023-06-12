@@ -15,41 +15,6 @@ import io
 st.title("Healthy Barri")
 st.subheader('a Barcelona Urban Analysis')
 
-# image for portada
-
-'''def file_selector(folder_path='D:/ironhack/proyectos/Barcelona_UrbanAnalysis/images/poster.png'):
-    filenames = os.listdir(folder_path)
-    selected_filename = st.selectbox('Select an image file', filenames)
-    return os.path.join(folder_path)
-
-# Assuming your images are located in the "images" folder
-image_folder = 'images'
-filename = file_selector(folder_path=image_folder)
-st.write('You selected `%s`' % filename)
-
-if filename:
-    image = Image.open(filename)
-    st.image(image)'''
-
-
-# Example with an image URL
-'''image_url = "D:/ironhack/proyectos/Barcelona_UrbanAnalysis/images/poster.png"
-response = requests.get(image_url)
-image_bytes = io.BytesIO(response.content)
-st.image(image_bytes)'''
-
-# Example with a local image file
-with open("D:/ironhack/proyectos/Barcelona_UrbanAnalysis/images/poster.png", "rb") as file:
-    image_bytes = file.read()
-st.image(image_bytes)
-
-
-
-'''image = Image.open('D://ironhack//proyectos/streamlit_prueba//images//poster.png')
-st.image(image)'''
-
-
-
 
 st.write("##")
 
