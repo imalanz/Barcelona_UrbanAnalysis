@@ -1,27 +1,13 @@
 
 
 import pandas as pd
-import geopandas as gpd
-import json
-import geojson
-import pyproj
-
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
 
-import plotly.express as px
 
-import importlib
-import sys 
-sys.path.append("..\src")
-import src_streamlit as lit
-importlib.reload(lit)
 from PIL import Image
 import streamlit.components.v1 as components
-
-import os
-
 
 
 
@@ -67,7 +53,7 @@ st.write("##")
 
 # data frame total healthiness
 st.caption("Data Frame")
-x = pd.read_csv("data/healthy_barrio.csv")
+x = pd.read_csv("csv/healthy_barrio.csv")
 x = x[["barri_id", "distrito", "Área (km²)", "seguridad","max_sound","mobilidad","ocio","air_contam","trees","equipamiento","healthy"]]
 st.dataframe(x)
 

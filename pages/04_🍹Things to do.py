@@ -2,20 +2,12 @@
 
 
 import pandas as pd
-import geopandas as gpd
-import json
 
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
+from folium import Figure
 
-import plotly.express as px
-
-import importlib
-import sys 
-sys.path.append("..\src")
-import src_streamlit as lit
-importlib.reload(lit)
 from PIL import Image
 import streamlit.components.v1 as components
 
@@ -60,15 +52,64 @@ options = ['museos', 'drinks', 'cines', 'restaurants']
 default_options = ["option 1"]
 selected_option =st.selectbox("What you want to look for?", options)
 
+
+# mapping ocio.
+def mapa_ocio(selected_option_barri, selected_option):
+    # mapa general.
+    figure4 = Figure(width=850,height=1800)
+    barna = folium.Map(location=[41.3887900, 2.1589900],zoom_start=12)
+    folium.TileLayer('cartodbpositron').add_to(barna)
+    figure4.add_child(barna)
+
+    oc = pd.read_csv("data/ocio_1.csv")
+    oc = oc[oc["barri"] == selected_option_barri]
+
+    for i, rows in oc.iterrows():
+        marker = {"location": [rows["latitud"], rows["longitud"]], "tooltip": rows["name"]}
+
+        if selected_option == "restaurants":
+            if rows['sub_category'] == "restaurants":
+                icon = folium.Icon(color="cadetblue", icon="fa-thin fa-utensils", prefix = 'fa')
+                hosp = folium.Marker(**marker, icon = icon)
+                hosp.add_to(barna)
+
+        if selected_option == "drinks":
+            if rows['sub_category'] == "drinks":
+                icon = folium.Icon(color="darkblue", icon = "fa-thin fa-martini-glass-citrus", prefix = 'fa', )
+                sc = folium.Marker(**marker, icon = icon)
+                sc.add_to(barna)
+
+        if selected_option == "museos":
+            if rows['sub_category'] == "museos":
+                icon = folium.Icon(color="lightblue", icon="fa-thin fa-building-columns", prefix = 'fa')
+                d = folium.Marker(**marker, icon = icon)
+                d.add_to(barna)    
+
+        if selected_option == "cines":
+            if rows['sub_category'] == "cines":
+                icon = folium.Icon(color="purple", icon="fa-thin fa-video", prefix = 'fa')         
+                d = folium.Marker(**marker, icon = icon)
+                d.add_to(barna)  
+
+    return barna
+
 # show map filtered.
-oc = pd.read_csv("data/ocio_1.csv")
-map = lit.mapa_ocio (selected_option_barri, selected_option)
+oc = pd.read_csv("csv/ocio_1.csv")
+map = mapa_ocio (selected_option_barri, selected_option)
 st_folium(map, height=500, width=1000)
+
 
 # get the filtered df.
 st.caption("List of what you asked")
 
-x = lit.df_ocio (selected_option_barri, selected_option)
+# function to print a db filtering what I choose in streamlit.
+def df_ocio (selected_option_barri, selected_option):
+    oc = pd.read_csv("csv/ocio_1.csv")
+    df = oc[(oc["barri"] == selected_option_barri) & (oc["sub_category"] == selected_option)]  
+    df = oc[["category", "sub_category", "barri"]]
+    return df
+
+x = df_ocio (selected_option_barri, selected_option)
 st.dataframe(x)
 
 st.write("##")

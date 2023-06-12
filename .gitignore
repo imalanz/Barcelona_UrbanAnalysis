@@ -1,6 +1,5 @@
 .env
-/csv
-csv
+/csv,s
+csv,s
 src/__pycache__
 
-streamlit/requirements.txt

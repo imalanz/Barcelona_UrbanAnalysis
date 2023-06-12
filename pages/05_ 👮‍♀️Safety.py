@@ -1,22 +1,10 @@
 
-
-
 import pandas as pd
-import geopandas as gpd
-import json
-
 
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
 
-import plotly.express as px
-
-import importlib
-import sys 
-sys.path.append("..\src")
-import src_streamlit as lit
-importlib.reload(lit)
 from PIL import Image
 import streamlit.components.v1 as components
 
@@ -42,10 +30,19 @@ st.write("##")
 options_barri = ["mossos", "guardia urbana"]
 default_options = ["option 1"]
 selected_option_barri =st.selectbox("Select your barri", options_barri)
+
+
 # get the filtered df.
 st.caption("List of incidents")
 
-x = lit.mossos (selected_option_barri)
+# function to print a db filtering what I choose in streamlit.
+def mossos (selected_option_barri):
+    equip = pd.read_csv("csv/seguridad.csv")
+    df = equip[(equip["personal"] == selected_option_barri)]
+    
+    return df
+
+x = mossos (selected_option_barri)
 st.dataframe(x)
 
 st.write("##")

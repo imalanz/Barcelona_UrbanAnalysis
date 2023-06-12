@@ -59,7 +59,7 @@ selected_option_barri =st.selectbox("Select your barri", options_barri)
 # to plot a heat map.
 def heat_map(selected_option_barri):
     # csv and filter
-    arbrat = pd.read_csv("data/arbolado_mix_barri_barris.csv")
+    arbrat = pd.read_csv("csv/arbolado_mix_barri_barris.csv")
     arbrat = arbrat[arbrat["barri"] == selected_option_barri]
     # Mapa general.   
     figure4 = Figure(width=850,height=1800)
@@ -77,7 +77,7 @@ def heat_map(selected_option_barri):
 
     return barna
 
-mov = pd.read_csv("data/arbolado_mix_barri_barris.csv")
+mov = pd.read_csv("csv/arbolado_mix_barri_barris.csv")
 map = heat_map(selected_option_barri)
 st_folium(map, height=500, width=1000)
 

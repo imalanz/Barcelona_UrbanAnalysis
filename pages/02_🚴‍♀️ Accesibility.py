@@ -2,32 +2,21 @@
 
 import pandas as pd
 
-import json
-import geojson
-import pyproj
-
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
 
-import plotly.express as px
-
-import importlib
-import sys 
-sys.path.append("..\src")
-import src_streamlit as lit
-importlib.reload(lit)
 from PIL import Image
 import streamlit.components.v1 as components
 
-from bs4 import BeautifulSoup 
+
 import pandas as pd
 import requests
 import re
 import importlib
 
 
-import plotly
+
 
 import folium
 from folium import Choropleth, Circle, Marker, Icon, Map, DivIcon, LinearColormap
@@ -35,14 +24,11 @@ from folium.plugins import HeatMap, MarkerCluster
 from shapely.geometry import Polygon
 
 from folium import Figure
-import geopandas as gpd
-import json
-import geojson
-import pyproj
-import folium
+
+
 from streamlit_folium import st_folium, folium_static
 
-import plotly.express as px
+
 
 from shapely.ops import transform
 from shapely.geometry import Polygon
@@ -93,7 +79,7 @@ def mapa_mobilidad(options_barri, options):
     folium.TileLayer('cartodbpositron').add_to(barna)
     figure4.add_child(barna)
 
-    bicing = pd.read_csv("data/bicing.csv")
+    bicing = pd.read_csv("csv/bicing.csv")
     for i, rows in bicing.iterrows():
         marker1 = {"location": [rows["latitud"], rows["longitud"]], "tooltip": rows["category"]}
 
@@ -104,7 +90,7 @@ def mapa_mobilidad(options_barri, options):
                 d.add_to(barna)
 
     # data of mobility without bicing
-    mov = pd.read_csv("data/mobilidad_1.csv")
+    mov = pd.read_csv("csv/mobilidad_1.csv")
     mov = mov[mov["barri"] == options_barri]
 
     for i, rows in mov.iterrows():
@@ -131,17 +117,22 @@ def mapa_mobilidad(options_barri, options):
     return barna
 
 
-bicing = pd.read_csv("data/bicing.csv")
-mov = pd.read_csv("data/mobilidad_1.csv")
+bicing = pd.read_csv("csv/bicing.csv")
+mov = pd.read_csv("csv/mobilidad_1.csv")
 map = mapa_mobilidad (selected_option_barri, selected_option)
 st_folium(map, height=500, width=1000)
 
 # get the filtered df.
 st.caption("List of asked infraestructure")
 
+# function to print a db filtering what I choose in streamlit.
+def df_streamlit_mob (barri, equipamiento):
+    mov = pd.read_csv("csv/mobilidad_1.csv")
+    df = mov[["category", "sub_category", "barri"]]
+    df = df[(df["barri"] == barri) & (df["sub_category"] == equipamiento)]  
+    return df
 
-
-x = lit.df_streamlit_mob (selected_option_barri, selected_option)
+x = df_streamlit_mob (selected_option_barri, selected_option)
 st.dataframe(x)
 
 st.write("##")
