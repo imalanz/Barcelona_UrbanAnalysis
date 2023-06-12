@@ -61,7 +61,7 @@ def mapa_ocio(selected_option_barri, selected_option):
     folium.TileLayer('cartodbpositron').add_to(barna)
     figure4.add_child(barna)
 
-    oc = pd.read_csv("data/ocio_1.csv")
+    oc = pd.read_csv("csv/ocio_1.csv")
     oc = oc[oc["barri"] == selected_option_barri]
 
     for i, rows in oc.iterrows():

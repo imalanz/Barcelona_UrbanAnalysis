@@ -92,7 +92,7 @@ st.caption("List of asked equipment")
 
 # function to print a db filtering what I choose in streamlit.
 def df_streamlit (barri, equipamiento):
-    equip = pd.read_csv("data/equipamiento_1.csv")
+    equip = pd.read_csv("csv/equipamiento_1.csv")
     
     df = equip[["name", "category", "sub_category", "barri"]]
     df = df[(df["barri"] == barri) & (df["sub_category"] == equipamiento)]  

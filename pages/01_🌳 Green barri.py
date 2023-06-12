@@ -85,7 +85,7 @@ st_folium(map, height=500, width=1000)
 st.caption("List of your barri`s trees")
 
 def df_arbrat (selected_option_barri):
-    arbrat = pd.read_csv("data/arbols.csv")
+    arbrat = pd.read_csv("csv/arbols.csv")
     df = arbrat[(arbrat["barri"] == selected_option_barri)]  
 
     return df[["taxon_name", "common_name", "address", "district", "category"]]
