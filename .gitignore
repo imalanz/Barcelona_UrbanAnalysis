@@ -1,0 +1,6 @@
+.env
+/csv
+csv
+src/__pycache__
+
+streamlit/requirements.txt
